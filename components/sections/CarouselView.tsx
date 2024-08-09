@@ -1,26 +1,15 @@
-import { Image } from 'expo-image';
 import React from 'react'
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import StyledText from 'react-native-styled-text';
+import { Dimensions, View, StyleSheet } from 'react-native';
+import { Image } from 'expo-image';
 import Carousel from 'react-native-reanimated-carousel';
+import { Arrays } from '@/constants';
 
 export default function CarouselView() {
-    const width = Dimensions.get('window').width;
-
-    const data = [
-        {
-            img: require('@/assets/images/banners/banner1.png')
-        },
-        {
-            img: require('@/assets/images/banners/banner2.png')
-        },
-        {
-            img: require('@/assets/images/banners/banner3.png')
-        }
-    ]
+    const width = Dimensions.get('window').width
+    const data = Arrays.banners
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={styles.container}>
             <Carousel
                 loop
                 width={width}
@@ -32,42 +21,34 @@ export default function CarouselView() {
                 // onSnapToItem={(index) => console.log('current index:', index)}
                 renderItem={({ item, index }) => (
                     <View
-                        style={{
-                            flex: 1,
-                            borderWidth: 1,
-                            justifyContent: 'center',
-                        }}
+                        style={styles.itemContainer}
                     >
                         <Image
-                            style={{ width: '100%', height: undefined,
-                                aspectRatio: 1 }}
-                                contentFit='contain'
+                            style={styles.itemImg}
+                            contentFit='contain'
                             source={item.img}
                         />
                     </View>
                 )}
             />
-
-            <StyledText
-                style={{
-                    paddingHorizontal: 20,
-                    paddingVertical: 10
-                }}
-                textStyles={styles}
-            >
-                {
-                    `<b1>Navigate</b1>\n` +
-                    `Feel free to navigate your needs.`
-                }
-            </StyledText>
         </View>
-
     )
 }
 
 const styles = StyleSheet.create({
-    b1: {
-        fontWeight: 'bold',
-        fontSize: 25,
+    container: {
+        flex: 1
+    },
+
+    itemContainer: {
+        flex: 1,
+        borderWidth: 1,
+        justifyContent: 'center',
+    },
+
+    itemImg: {
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1
     }
 })

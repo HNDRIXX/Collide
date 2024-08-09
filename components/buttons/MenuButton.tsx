@@ -1,73 +1,27 @@
 import React from 'react'
 import { Text, TouchableOpacity, View, Dimensions, StyleSheet } from 'react-native'
 import { Shadow } from 'react-native-shadow-2';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { Image } from 'expo-image';
+import StyledText from 'react-native-styled-text';
+import { Arrays, Strings } from '@/constants';
 
 export default function MenuButton() {
 
-    const firstRowButtons = [
-        {
-            icon: require('@/assets/images/icons/clothes.webp'),
-            title: 'Clothes',
-            iconSize: [70, 70]
-        },
-        {
-            icon: require('@/assets/images/icons/cap.webp'),
-            title: 'Caps',
-            iconSize: [50, 50]
-        },
-    ]
+    const firstRowButtons = Arrays.menuButtons.firstRowButtons
+    const secondRowButtons = Arrays.menuButtons.secondRowButtons
+    const thirRowButtons = Arrays.menuButtons.thirRowButtons
 
-    const secondRowButtons = [
-        {
-            icon: require('@/assets/images/icons/dress.webp'),
-            title: 'Clothes',
-            iconSize: [45, 45]
-        },
-        {
-            icon: require('@/assets/images/icons/bag.webp'),
-            title: 'Bags',
-            iconSize: [45, 45]
-        },
-        {
-            icon: require('@/assets/images/icons/sneaker.webp'),
-            title: 'Sneakers',
-            iconSize: [45, 45]
-        },
-    ]
-
-    const thirRowButtons = [
-        {
-            icon: require('@/assets/images/icons/new.webp'),
-            title: 'New Arrivals',
-            iconSize: [45, 45]
-        },
-    ]
-
-    const DisplayButton = ({ data } : any) => {
+    const DisplayButton = ({ data, index }: any) => {
         return (
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} key={index}>
                 <Shadow
-                    containerViewProps={{
-                        style: {
-                            width: '100%',
-                            minHeight: 100,
-                            alignItems: 'center',
-                        }
-                    }}
-                    style={{
-                        width: '100%',
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                        backgroundColor: 'white'
-                    }}
+                    containerStyle={styles.shadowContainer}
+                    style={styles.shadowSubContainer}
                     distance={3}
                     offset={[1, 2]}
                 >
-                    <Image
+                    {/* <Image
                         style={{
                             width: data?.iconSize[0],
                             height: data?.iconSize[1],
@@ -75,36 +29,45 @@ export default function MenuButton() {
                         }}
                         source={data?.icon || require('@/assets/images/icon.png')}
                         contentFit='contain'
-                    />
+                    /> */}
 
+                    <AntDesign name="staro" size={110} color="black" style={styles.iconWrap} />
                     <Text style={styles.buttonText}>{data?.title || 'Button'}</Text>
                 </Shadow>
-
             </TouchableOpacity>
         )
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.buttonContainer}>
-                {firstRowButtons.map((item, index) => (
-                    <DisplayButton data={item} />
-                ))}
-            </View>
+        <React.Fragment>
+            <StyledText
+                style={styles.textContainer}
+                textStyles={styles}
+            >
+                {Strings.menuButton.textContainer}
+            </StyledText>
 
-            <View style={styles.buttonContainer}>
-                {secondRowButtons.map((item, index) => (
-                    <DisplayButton data={item} />
-                ))}
-            </View>
+            <View style={styles.container}>
+                <View style={styles.buttonContainer}>
+                    {firstRowButtons.map((item, index) => (
+                        <DisplayButton data={item} index={index} />
+                    ))}
+                </View>
 
-            <View style={styles.buttonContainer}>
-                {thirRowButtons.map((item, index) => (
-                    <DisplayButton data={item} />
-                ))}
+                <View style={styles.buttonContainer}>
+                    {secondRowButtons.map((item, index) => (
+                        <DisplayButton data={item} index={index} />
+                    ))}
+                </View>
+
+                <View style={styles.buttonContainer}>
+                    {thirRowButtons.map((item, index) => (
+                        <DisplayButton data={item} index={index} />
+                    ))}
+                </View>
             </View>
-        </View>
-    );
+        </React.Fragment>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -115,11 +78,18 @@ const styles = StyleSheet.create({
         rowGap: 8,
         padding: 8,
     },
+
+    textContainer: {
+        marginHorizontal: 20,
+        marginBottom: 10
+    },
+
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
     },
+
     button: {
         flex: 1,
         justifyContent: 'center',
@@ -127,10 +97,44 @@ const styles = StyleSheet.create({
         marginHorizontal: 4,
         minHeight: 100,
         borderRadius: 10,
+        borderColor: '#f7f7f7',
+        borderWidth: 1,
     },
+
+    shadowContainer: {
+        width: '100%',
+        minHeight: 100,
+        alignItems: 'center',
+    },
+    
+    shadowSubContainer: {
+        width: '100%',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        backgroundColor: 'white',
+        overflow: 'hidden',
+    },
+
     buttonText: {
-        // marginTop: 4,
         position: 'absolute',
+        fontWeight: 'condensed',
+        color: 'black',
+        fontSize: 14,
         bottom: 10,
     },
-});
+
+    b1: {
+        fontWeight: 'bold',
+        fontSize: 25,
+    },
+
+    iconWrap: {
+        position: 'absolute',
+        top: -10,
+        right: 0,
+        transform: [{ rotate: '90deg'}],
+        opacity: 0.05
+    }
+})
